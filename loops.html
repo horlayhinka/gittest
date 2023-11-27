@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    for (let index = 0; index < paymentData.length; index++) {
+    let splitPayment = paymentData[index];
+  
+    if (splitPayment.status == 0) {
+  
+      let remainingAmount = splitPayment.amount - splitPayment.amount_paid;
+      let status = 1;
+  
+      if (amountToPay >= remainingAmount) {
+        paymentData[index]['amount_paid'] += Math.round(remainingAmount, 2);
+        paymentData[index]['status'] = status;
+        amountToPay -= remainingAmount;
+      } else {
+        paymentData[index]['amount_paid'] += Math.round(amountToPay, 2);
+        if (Math.round(paymentData[index]['amount_paid'], 2) == Math.round(splitPayment['amount'], 2)) {
+          paymentData[index]['status'] = status;
+        }
+        break; // This will exit the loop if the condition is met
+      }
+    }
+  }
+let amountToPay = 500;
+let totalPaid = 0;
+
+for (let index = 0; index < paymentData.length; index++) {
+  let paymentObject = paymentData[index];
+
+  if (paymentObject.status == 0) {
+    let remainingAmount = paymentObject.expected_amount - paymentObject.amount_paid;
+
+    //   console.log(remainingAmount);
+
+    let status = 1;
+
+    if (amountToPay >= remainingAmount) {
+      paymentData[index]["amount_paid"] += Math.round(remainingAmount, 2);
+      paymentData[index]["status"] = status;
+      amountToPay -= remainingAmount;
+    } else {
+      paymentData[index]["amount_paid"] += Math.round(amountToPay, 2);
+      paymentData[index]["balance"] = paymentObject.expected_amount - paymentObject.amount_paid;
+      if ( Math.round(paymentData[index]["amount_paid"], 2) == Math.round(paymentObject["expected_amount"], 2)) {
+            paymentData[index]["status"] = status;
+      }
+      break; // This will exit the loop if the condition is met
+    }
+  }
+//   totalPaid += paymentData[index]["amount_paid"];
+}
+
+console.log(paymentData);
+// console.log(totalPaid)
+    </script>
+    
+</body>
+</html>
